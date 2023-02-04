@@ -32,7 +32,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
     },
     Population: {
-      type: DataTypes.INTEGER
+      type: DataTypes.BIGINT,
     }
   });
 };
