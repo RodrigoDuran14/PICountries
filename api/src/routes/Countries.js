@@ -29,9 +29,10 @@ const getDbInfo = async () => {
   const db = await Country.findAll({
     include: {
       model: Activity,
-      attributes: ["name"],
+      attributes: ["id","name","difficulty", "duration", "season"],
       through: { attributes: [] },
     },
+
   });
   return db;
 };
@@ -68,18 +69,30 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:id", async (req,res,next) =>{
+router.get("/:id", async (req, res, next) => {
   try {
-    const {id} = req.params;
+    const { id } = req.params;
 
     verifyDb();
-    
-    const result = await Country.findByPk(id.toUpperCase(), {include: Activity});
 
-    result ? res.send(result) : res.status(404).send({id: "The Id doesn't correspond to an existing country, please enter a valid Id. "})
+    const result = await Country.findByPk(id.toUpperCase(), {
+      include: {
+        model: Activity,
+        attributes: ["name","difficulty", "duration", "season"],
+        through: { attributes: [] },
+      },
+    });
+
+    result
+      ? res.send(result)
+      : res
+          .status(404)
+          .send({
+            id: "The Id doesn't correspond to an existing country, please enter a valid Id. ",
+          });
   } catch (error) {
     next(error);
   }
-})
+});
 
 module.exports = router;

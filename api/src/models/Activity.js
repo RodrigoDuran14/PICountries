@@ -12,7 +12,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    dificulty: {
+    difficulty: {
       type: DataTypes.INTEGER,
       validate: {
         min: 1,
